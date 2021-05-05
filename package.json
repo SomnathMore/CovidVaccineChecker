@@ -22,5 +22,14 @@
   "bugs": {
     "url": "https://github.com/SomnathMore/CovidVaccineChecker/issues"
   },
-  "homepage": "https://github.com/SomnathMore/CovidVaccineChecker#readme"
+  "homepage": "https://github.com/SomnathMore/CovidVaccineChecker#readme",
+  "dependencies": {
+    "luxon": "^1.26.0",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.6.0",
+    "superagent": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/luxon": "^1.26.5"
+  }
 }
