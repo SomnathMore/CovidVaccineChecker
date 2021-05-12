@@ -32,26 +32,31 @@ function CheckForSlots()
 
     // Schedule fot specific district
     let count = 0;
-    cron.schedule('* * * * *', function() {
+    cron.schedule('*/30 * * * * *', function() {
       const dates = getDates();
       dates.forEach( date => {
       superagent
-      .get('https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict')
-      .query({ district_id: '373', date: date })
+      .get('https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin')
+      .query({ pincode: '416405', date: date })
       .end((err, res) => {
          if(err == null && res != null)
          {
+         console.log("\nChecked and Running");
          const sessions = res?.body?.sessions;
          if(sessions != null)
          {
-            const availableSlots = sessions.filter(slot => slot.min_age_limit == 18 && slot.available_capacity > 0);
+           
+            const availableSlots = sessions.filter(slot => slot.available_capacity > 0);
             if(availableSlots.length > 0)
             {
+            console.log("\x1b[31m","\nSomething available");
             //console.log("\nAvailable : " , ++count)
             sendMail(availableSlots);
             }
          }
          }
+         else
+         console.log("\nerror");
       });
     });
    })
@@ -64,7 +69,7 @@ function CheckForSlots()
 function getDates()
 {
    let dates =[] ;
-   for(let i=0;i<7;i++)
+   for(let i=0;i<2;i++)
       {
       const date = DateTime.local().plus({ days: i });
       dates.push(date.toFormat('dd-MM-yyyy'));
